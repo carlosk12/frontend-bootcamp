@@ -8,7 +8,7 @@
       <h1>todos</h1>
       <div class="addTodo">
         <input class="textfield" placeholder="add todo" />
-        <button class="submit">Add</button>
+        <button onclick="addTodo()" class="submit">Add</button>
       </div>
       <nav class="filter">
         <button class="selected">all</button>
@@ -33,7 +33,7 @@
     </ul>
     <footer>
       <span><span class="remaining">4</span> items left</span>
-      <button class="submit">Clear Completed</button>
+      <button onclick="clearCompleted()" class="submit">Clear Completed</button>
     </footer>
   </body>
 
@@ -46,6 +46,12 @@
       return document.querySelector('.textfield').value;
     }
 
+    function updateRemaining() {
+      let item = document.querySelector('remaining');
+      let items = document.querySelectorAll('todo');
+      item.innerText = items;
+    }
+
     function addTodo() {
       const todo = document.querySelector('.todo');
       const newTodo = todo.cloneNode(true);
@@ -53,7 +59,17 @@
       todo.parentElement.insertBefore(newTodo, todo);
 
       clearInput('.textfield');
-      // updateRemaining();
+      updateRemaining();
+    }
+
+    function clearCompleted() {
+      const todos = document.querySelectorAll('.todo');
+      for (let todo of todos) {
+        if (todo.querySelector('input').checked == true) {
+          todo.remove();
+        }
+      }
+      updateRemaining();
     }
 
     function filter(filterName, button) {
